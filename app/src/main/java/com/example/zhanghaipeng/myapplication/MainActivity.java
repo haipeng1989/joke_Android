@@ -63,6 +63,15 @@ public class MainActivity extends AppCompatActivity {
                     "“我还有九套！ ”\n" +
                     "“哦。。。”" };
 
+    private String[] data2 = {
+            "1、一直觉得自己笑点低，直到那天去超市买了个榴莲，没开，直接用绳子绑了一下拎走了，上电梯的时候我跟女友说了一句，谁敢惹我，我手里有个带味儿的流星锤!然后旁边一个妹子就哈哈哈哈哈哈的狂笑了一路。。。\n",
+            "2、我有一个梦想，就是带着墨镜开着兰博基尼衣锦还乡，经过20多年的努力，已经实现一半了，我拥有了墨镜。\n",
+            "3、说个斗奸商的真事!一次去买肉，“老板给我称一下这块多少钱”，“20块”，“太多了，切一半”，接着老板称了较小那块说“13块”。“给我另一半吧，给你7块钱”!那家伙半天没回过神!",
+            "4、听说过吗？前世的五百次回眸，才换得今生的一次擦肩，象你我这样亲密的朋友，上辈子似乎没干什么，光他妈回头了！",
+            "5、有两个造假钞的不小心造出面值15元的假钞，两人决定拿到偏远山区花掉，当他们拿一张15元买了1元的糖葫芦后，他们哭了，农民找了他们两张7块的" };
+
+    private int index = 0;
+
     private PullToRefreshListView mPullRefreshListView;
 
     private ArrayAdapter<String> mAdapter;
@@ -111,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mListItems);
 
         actualListView.setAdapter(mAdapter);
+
+        index = 0;
     }
 
     private class GetDataTask extends AsyncTask<Void, Void, String[]> {
@@ -128,7 +139,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String[] result) {
             mAdapter.clear();
-            mAdapter.addAll(data1);
+            if (index == 0) {
+                mAdapter.addAll(data1);
+                index++;
+            } else if (index == 1) {
+                mAdapter.addAll(data2);
+                index++;
+            }  else if (index == 2) {
+                mAdapter.addAll(data);
+                index = 0;
+            }
             mAdapter.notifyDataSetChanged();
 
             // Call onRefreshComplete when the list has been refreshed.
